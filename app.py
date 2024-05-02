@@ -7,9 +7,11 @@ try:
 except ImportError:
   from llama_index.core import VectorStoreIndex, ServiceContext, Document, SimpleDirectoryReader
 
-
-secrets = toml.load(".streamlit/secrets.toml")
-openai.api_key = secrets['OPENAI_API_KEY']
+try:
+    secrets = toml.load(".streamlit/secrets.toml")
+    openai.api_key = secrets['OPENAI_API_KEY']
+except FileNotFoundError:
+    openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 st.set_page_config(page_title="Randall", 
                    page_icon="🐱", 
